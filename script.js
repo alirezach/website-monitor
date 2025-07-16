@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Configuration ---
     const API_ENDPOINT = 'https://sadbarg.engare.net/scanner/api/check-now.php'; // IMPORTANT: Replace with your actual server API endpoint
-    const WEBSITES_API_URL = 'https://sadbarg.engare.net/scanner/api/websites.php?server=iran_internal'; // Fetch internal server list
+    const WEBSITES_API_URL = 'https://sadbarg.engare.net/scanner/api/websites.php?server=github_external'; // Fetch external server list
 
     // --- UI Elements ---
     const websitesTableBody = document.getElementById('websitesTableBody');
@@ -104,28 +104,34 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {Array} results - The array of check results.
      */
     async function reportResultsToServer(results) {
+        // Compress results for smaller payload
+        const compressedResults = results.map(r => ({
+            id: r.id, // Send ID instead of full URL
+            s: r.status === 'online' ? 1 : 0, // 1 for online, 0 for offline
+            l: r.latency,
+            n: r.note
+        }));
+
         try {
-            connectionStatusText.textContent = 'در حال ارسال نتایج به سرور اصلی...';
+            connectionStatusText.textContent = 'در حال ارسال نتایج فشرده به سرور...';
             const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ checks: results, source: 'github' })
+                body: JSON.stringify({ checks: compressedResults, source: 'github' })
             });
 
             if (response.ok) {
                 connectionStatusText.textContent = 'نتایج با موفقیت به سرور ارسال شد.';
-                connectionStatusIndicator.classList.add('online');
-                connectionStatusIndicator.classList.remove('offline');
+                connectionStatusIndicator.className = 'status-indicator online';
             } else {
                 throw new Error(`Server responded with status: ${response.status}`);
             }
         } catch (error) {
             console.error('Failed to report results to server:', error);
             connectionStatusText.textContent = 'خطا در ارسال نتایج به سرور اصلی.';
-            connectionStatusIndicator.classList.add('offline');
-            connectionStatusIndicator.classList.remove('online');
+            connectionStatusIndicator.className = 'status-indicator offline';
         }
     }
 
