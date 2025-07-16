@@ -1,16 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Configuration ---
     const API_ENDPOINT = 'https://sadbarg.engare.net/scanner/api/check-now.php'; // IMPORTANT: Replace with your actual server API endpoint
-    const WEBSITES = [
-        { name: 'درگاه ملی آمار', url: 'https://www.amar.org.ir' },
-        { name: 'مرکز آمار ایران', url: 'https://www.cbi.ir' },
-        { name: 'بانک مرکزی', url: 'https://www.mimt.gov.ir' },
-        { name: 'وزارت صمت', url: 'https://www.mporg.ir' },
-        { name: 'سازمان برنامه و بودجه', url: 'https://www.msrt.ir' },
-        { name: 'وزارت علوم', url: 'https://www.moe.gov.ir' },
-        { name: 'وزارت آموزش و پرورش', url: 'https://www.mcls.gov.ir' },
-        { name: 'وزارت کار', url: 'https://www.moi.ir' }
-    ];
+    const WEBSITES_API_URL = 'https://sadbarg.engare.net/scanner/api/websites.php?server=iran_internal'; // Fetch internal server list
 
     // --- UI Elements ---
     const websitesTableBody = document.getElementById('websitesTableBody');
@@ -141,16 +132,46 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Main function to run all checks.
      */
+    /**
+     * Fetches the list of websites from the server.
+     */
+    async function fetchWebsites() {
+        try {
+            const response = await fetch(WEBSITES_API_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to fetch websites:', error);
+            connectionStatusText.textContent = 'خطا در دریافت لیست وب‌سایت‌ها.';
+            return []; // Return empty array on failure
+        }
+    }
+
+    /**
+     * Main function to run all checks.
+     */
     async function runChecks() {
         if (isChecking) return;
         isChecking = true;
 
         loadingIndicator.classList.add('show');
         checkNowBtn.disabled = true;
-        checkNowBtn.textContent = 'در حال بررسی...';
+        checkNowBtn.textContent = 'در حال دریافت لیست سایت‌ها...';
         websitesTableBody.innerHTML = '';
 
-        const checkPromises = WEBSITES.map(checkWebsite);
+        const websites = await fetchWebsites();
+        if (websites.length === 0) {
+            loadingIndicator.classList.remove('show');
+            checkNowBtn.disabled = false;
+            checkNowBtn.textContent = '🔄 تلاش مجدد';
+            isChecking = false;
+            return;
+        }
+
+        checkNowBtn.textContent = 'در حال بررسی...';
+        const checkPromises = websites.map(checkWebsite);
         const results = await Promise.all(checkPromises);
 
         renderTable(results);
