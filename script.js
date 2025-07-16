@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let note = '';
 
         try {
-            // First, try a standard CORS request to read status and body
             const response = await fetch(website.url, { cache: 'no-store' });
             latency = Date.now() - startTime;
 
@@ -80,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 note = `Status: ${response.status}`;
             } else {
                 status = 'Offline';
-                note = `Status: ${response.status}`;
+                note = `Error: ${response.status}`;
                 try {
                     const bodyText = await response.text();
                     const lowerBodyText = bodyText.toLowerCase();
@@ -92,28 +91,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         lowerBodyText.includes('403') ||
                         hasForbiddenTitle
                     ) {
-                        note += ' - دسترسی مسدود شده است (Forbidden).';
+                        note = 'دسترسی مسدود (403)';
                     } else {
-                        note += ' - خطای نامشخص از سمت سرور.';
+                        note = `خطای سرور (${response.status})`;
                     }
                 } catch (e) {
-                    note += ' - امکان خواندن متن پاسخ وجود ندارد.';
+                    // Ignore if can't read body
                 }
             }
         } catch (error) {
-            // This catch block usually handles CORS errors or network failures
             latency = Date.now() - startTime;
-            note = 'Blocked by CORS or Network Error. Trying fallback.';
-            
-            // Fallback to 'no-cors' to check for basic reachability
-            try {
-                await fetch(website.url, { mode: 'no-cors', cache: 'no-store' });
-                status = 'Online'; // Or 'Uncertain'
-                note = 'سرور در دسترس است اما به دلیل محدودیت CORS، وضعیت دقیق (مانند 200 یا 403) قابل تشخیص نیست.';
-            } catch (fallbackError) {
-                status = 'Offline';
-                note = 'سرور غیرقابل دسترس است (خطای شبکه).';
-            }
+            status = 'Offline';
+            note = 'خطای شبکه یا CORS';
         }
 
         return { ...website, status, latency, note };
