@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Configuration ---
-    const API_ENDPOINT = 'https://your-main-server.com/api/check-now.php'; // IMPORTANT: Replace with your actual server API endpoint
+    const API_ENDPOINT = 'https://sadbarg.engare.net/scanner/api/check-now.php'; // IMPORTANT: Replace with your actual server API endpoint
     const WEBSITES = [
         { name: 'درگاه ملی آمار', url: 'https://www.amar.org.ir' },
         { name: 'مرکز آمار ایران', url: 'https://www.cbi.ir' },
