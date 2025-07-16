@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مانیتور وب‌سایت‌های دولتی ایران - سرور خارجی</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇮🇷</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">مانیتور وب‌سایت‌های دولتی ایران</h1>
+            <p class="subtitle">سامانه بررسی وضعیت دسترسی وب‌سایت‌های آماری کشور</p>
+            <div class="server-info">
+                <span class="server-badge external">🌍 سرور خارجی (GitHub Pages)</span>
+            </div>
+            <div class="connection-status" id="connectionStatus">
+                <span class="status-indicator online" id="statusIndicator">●</span>
+                <span id="statusText">آماده برای بررسی</span>
+            </div>
+        </header>
+
+        <!-- Statistics -->
+        <div class="stats-container">
+            <div class="stat-box total">
+                <div class="stat-number" id="totalCount">8</div>
+                <div class="stat-label">کل وب‌سایت‌ها</div>
+            </div>
+            <div class="stat-box online">
+                <div class="stat-number" id="onlineCount">-</div>
+                <div class="stat-label">آنلاین</div>
+            </div>
+            <div class="stat-box offline">
+                <div class="stat-number" id="offlineCount">-</div>
+                <div class="stat-label">آفلاین</div>
+            </div>
+        </div>
+
+        <!-- Notice -->
+        <div class="notice">
+            <h3>⚠️ توجه مهم</h3>
+            <p>این صفحه از سرور خارجی (GitHub Pages) اجرا می‌شود و ممکن است برخی وب‌سایت‌های ایرانی از خارج قابل دسترسی نباشند.</p>
+            <p>برای دسترسی کامل از سرور داخلی استفاده کنید.</p>
+        </div>
+
+        <!-- Loading indicator -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <span>در حال بررسی وب‌سایت‌ها...</span>
+        </div>
+
+        <!-- Websites Table -->
+        <div class="table-container">
+            <table class="websites-table" id="websitesTable">
+                <thead>
+                    <tr>
+                        <th>نام وب‌سایت</th>
+                        <th>وضعیت</th>
+                        <th>آخرین بررسی</th>
+                        <th>زمان پاسخ</th>
+                        <th>یادداشت</th>
+                    </tr>
+                </thead>
+                <tbody id="websitesTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Manual Check Button -->
+        <div class="actions">
+            <button class="check-btn" id="checkNowBtn">
+                🔄 بررسی فوری از سرور خارجی
+            </button>
+            <div class="last-update">
+                آخرین بروزرسانی: <span id="lastUpdate">-</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                ساخته شده به دست 
+                <a href="https://github.com/alirezach" target="_blank" rel="noopener">علیرضا</a>
+                - آزمایشگاه مجله تحلیلی دقیقه
+            </p>
+            <p class="version">نسخه 1.0.0 - سرور خارجی</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
