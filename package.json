@@ -1,0 +1,12 @@
+{
+  "name": "website-monitor-action",
+  "version": "1.0.0",
+  "description": "GitHub Action runner for website monitoring",
+  "main": "github/action-runner.js",
+  "scripts": {
+    "start": "node github/action-runner.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
