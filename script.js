@@ -68,19 +68,52 @@ document.addEventListener('DOMContentLoaded', () => {
         const startTime = Date.now();
         let status = 'Offline';
         let latency = null;
-        let note = 'Request timed out or blocked by CORS.';
+        let note = '';
 
         try {
-            const response = await fetch(website.url, { mode: 'no-cors', cache: 'no-store' });
+            // First, try a standard CORS request to read status and body
+            const response = await fetch(website.url, { cache: 'no-store' });
             latency = Date.now() - startTime;
-            // 'no-cors' responses have a status of 0, but if we get here, it means a response was received.
-            status = 'Online'; 
-            note = 'Response received (no-cors).';
+
+            if (response.ok) {
+                status = 'Online';
+                note = `Status: ${response.status}`;
+            } else {
+                status = 'Offline'; // Default to Offline if response is not OK
+                note = `Status: ${response.status}`;
+                try {
+                    const bodyText = await response.text();
+                    const lowerBodyText = bodyText.toLowerCase();
+                    if (
+                        lowerBodyText.includes('عدم دسترسی') ||
+                        lowerBodyText.includes('access denied') ||
+                        lowerBodyText.includes('forbidden') ||
+                        lowerBodyText.includes('403')
+                    ) {
+                        note += ' - دسترسی مسدود شده است (Forbidden).';
+                    } else {
+                        note += ' - خطای نامشخص از سمت سرور.';
+                    }
+                } catch (e) {
+                    note += ' - امکان خواندن متن پاسخ وجود ندارد.';
+                }
+            }
         } catch (error) {
-            // Network error or DNS failure
-            status = 'Offline';
-            note = 'Network error or unreachable.';
+            // This catch block usually handles CORS errors or network failures
+            latency = Date.now() - startTime;
+            note = 'Blocked by CORS or Network Error. Trying fallback.';
+            
+            // Fallback to 'no-cors' to check for basic reachability
+            try {
+                await fetch(website.url, { mode: 'no-cors', cache: 'no-store' });
+                status = 'Online'; // Or 'Uncertain'
+                note = 'سرور در دسترس است اما به دلیل محدودیت CORS، وضعیت دقیق (مانند 200 یا 403) قابل تشخیص نیست.';
+            } catch (fallbackError) {
+                status = 'Offline';
+                note = 'سرور غیرقابل دسترس است (خطای شبکه).';
+            }
         }
+
         return { ...website, status, latency, note };
     }
 
