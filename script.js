@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {Array} results - Array of check results.
      */
     function updateStats(results) {
-        const online = results.filter(r => r.status === 'Online').length;
+        const online = results.filter(r => r.status === 'online').length;
         const offline = results.length - online;
         onlineCountSpan.textContent = online;
         offlineCountSpan.textContent = offline;
@@ -46,10 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
         websitesTableBody.innerHTML = '';
         results.forEach(result => {
             const row = document.createElement('tr');
-            const statusClass = result.status === 'Online' ? 'status-online' : 'status-offline';
+            const statusClass = result.status === 'online' ? 'status-online' : 'status-offline';
             row.innerHTML = `
                 <td><a href="${result.url}" target="_blank">${result.name}</a></td>
-                <td><span class="status ${statusClass}">${result.status === 'Online' ? 'آنلاین' : 'آفلاین'}</span></td>
+                <td><span class="status ${statusClass}">${result.status === 'online' ? 'آنلاین' : 'آفلاین'}</span></td>
                 <td>${new Date().toLocaleTimeString('fa-IR')}</td>
                 <td>${result.latency !== null ? `${result.latency}ms` : 'N/A'}</td>
                 <td>${result.note || '-'}</td>
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function checkWebsite(website) {
         const startTime = Date.now();
-        let status = 'Offline';
+        let status = 'offline';
         let latency = null;
         let note = '';
 
@@ -75,10 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
             latency = Date.now() - startTime;
 
             if (response.ok) {
-                status = 'Online';
+                status = 'online';
                 note = `Status: ${response.status}`;
             } else {
-                status = 'Offline';
+                status = 'offline';
                 note = `Error: ${response.status}`;
                 try {
                     const bodyText = await response.text();
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             latency = Date.now() - startTime;
-            status = 'Offline';
+            status = 'offline';
             note = 'خطای شبکه یا CORS';
         }
 
