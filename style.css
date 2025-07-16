@@ -1,6 +1,5 @@
-/* Iranian Government Websites Monitor - GitHub Pages CSS */
-/* نسخه سرور خارجی */
-
+/* Iranian Government Websites Monitor - CSS Styles */
+/* فونت و تنظیمات پایه */
 * {
     margin: 0;
     padding: 0;
@@ -15,6 +14,7 @@ body {
     line-height: 1.6;
 }
 
+/* Container */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -45,23 +45,7 @@ body {
     margin-bottom: 20px;
 }
 
-.server-info {
-    margin-bottom: 15px;
-}
-
-.server-badge {
-    display: inline-block;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.server-badge.external {
-    background: #e74c3c;
-    color: white;
-}
-
+/* Connection Status */
 .connection-status {
     display: inline-flex;
     align-items: center;
@@ -88,6 +72,39 @@ body {
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
+}
+
+/* Server Selection */
+.server-selection {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.server-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid transparent;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.server-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.server-btn.active {
+    background: #3498db;
+    color: white;
+    border-color: #2980b9;
 }
 
 /* Statistics */
@@ -136,25 +153,6 @@ body {
     color: #e74c3c;
 }
 
-/* Notice */
-.notice {
-    background: rgba(255, 193, 7, 0.1);
-    border: 2px solid rgba(255, 193, 7, 0.3);
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 30px;
-    color: #856404;
-}
-
-.notice h3 {
-    margin-bottom: 10px;
-    color: #f39c12;
-}
-
-.notice p {
-    margin-bottom: 8px;
-}
-
 /* Loading */
 .loading {
     display: none;
@@ -200,179 +198,4 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.95rem;
-}
-
-.websites-table th {
-    background: #f8f9fa;
-    padding: 15px 12px;
-    text-align: right;
-    font-weight: 600;
-    color: #2c3e50;
-    border-bottom: 2px solid #dee2e6;
-}
-
-.websites-table td {
-    padding: 15px 12px;
-    border-bottom: 1px solid #dee2e6;
-    vertical-align: middle;
-}
-
-.websites-table tr:hover {
-    background: rgba(52, 152, 219, 0.05);
-}
-
-/* Status indicators */
-.status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.status.online {
-    background: rgba(39, 174, 96, 0.1);
-    color: #27ae60;
-}
-
-.status.offline {
-    background: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
-}
-
-.status.blocked {
-    background: rgba(255, 193, 7, 0.1);
-    color: #f39c12;
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: currentColor;
-}
-
-/* Response time */
-.response-time {
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-.response-time.fast {
-    color: #27ae60;
-}
-
-.response-time.slow {
-    color: #f39c12;
-}
-
-.response-time.very-slow {
-    color: #e74c3c;
-}
-
-/* Actions */
-.actions {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.check-btn {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    border-radius: 25px;
-    font-family: inherit;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
-}
-
-.check-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
-}
-
-.check-btn:disabled {
-    background: #bdc3c7;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-.last-update {
-    margin-top: 15px;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-}
-
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-}
-
-.footer a {
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
-}
-
-.footer a:hover {
-    color: white;
-    text-decoration: underline;
-}
-
-.version {
-    margin-top: 10px;
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .title {
-        font-size: 2rem;
-    }
-    
-    .subtitle {
-        font-size: 1rem;
-    }
-    
-    .stats-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .websites-table {
-        font-size: 0.85rem;
-    }
-    
-    .websites-table th,
-    .websites-table td {
-        padding: 10px 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .title {
-        font-size: 1.5rem;
-    }
-    
-    .websites-table th,
-    .websites-table td {
-        padding: 8px 6px;
-    }
-    
-    .websites-table {
-        font-size: 0.8rem;
-    }
 }

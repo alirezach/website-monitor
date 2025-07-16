@@ -79,16 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 status = 'Online';
                 note = `Status: ${response.status}`;
             } else {
-                status = 'Offline'; // Default to Offline if response is not OK
+                status = 'Offline';
                 note = `Status: ${response.status}`;
                 try {
                     const bodyText = await response.text();
                     const lowerBodyText = bodyText.toLowerCase();
+                    const hasForbiddenTitle = /<title>.*(403|forbidden).*<\/title>/i.test(bodyText);
                     if (
                         lowerBodyText.includes('عدم دسترسی') ||
                         lowerBodyText.includes('access denied') ||
                         lowerBodyText.includes('forbidden') ||
-                        lowerBodyText.includes('403')
+                        lowerBodyText.includes('403') ||
+                        hasForbiddenTitle
                     ) {
                         note += ' - دسترسی مسدود شده است (Forbidden).';
                     } else {
